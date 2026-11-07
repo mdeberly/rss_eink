@@ -34,9 +34,4 @@ object Prefs {
     var maxAgeDays: Int
         get() = sp.getInt("max_age_days", 2)
         set(v) = sp.edit().putInt("max_age_days", v).apply()
-
-    /** 0 = all, 1 = short, 2 = medium, 3 = long */
-    var filter: Int
-        get() = sp.getInt("filter", 0)
-        set(v) = sp.edit().putInt("filter", v).apply()
 }

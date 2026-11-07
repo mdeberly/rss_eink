@@ -37,22 +37,6 @@
             android:src="@drawable/ic_settings" />
     </LinearLayout>
 
-    <!-- Reading-time filter -->
-    <LinearLayout
-        android:id="@+id/filters"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="4dp">
-
-        <TextView android:id="@+id/filter_all" style="@style/Chip" android:text="@string/filter_all" />
-        <TextView android:id="@+id/filter_short" style="@style/Chip" android:text="@string/filter_short" />
-        <TextView android:id="@+id/filter_medium" style="@style/Chip" android:text="@string/filter_medium" />
-        <TextView android:id="@+id/filter_long" style="@style/Chip" android:text="@string/filter_long" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/status"
         android:layout_width="match_parent"

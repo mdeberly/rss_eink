@@ -18,14 +18,13 @@ pas de compte, pas d'algorithme), réécrit de zéro.
 - Calcul : nombre de mots ÷ vitesse de lecture (180, 230, 280 ou 350 mots/min, réglable),
   plus quelques secondes par image (12 s pour la première, puis une de moins par image, minimum 3 s)
   si l'affichage des images est activé. Les caractères chinois/japonais/coréens comptent pour ½ mot.
-- Filtre par durée en haut de la liste : Tous · ≤ 3 min · 3–10 min · > 10 min.
 - La ligne d'état donne le nombre d'articles et le temps total de lecture des articles non lus.
 - Dans le lecteur : durée totale et nombre de mots en haut, et **temps restant** à côté du
   numéro de page (`2 / 6 · reste 3 min`).
 
 ## Autres fonctions
 
-- **Aujourd'hui** : les articles récents de toutes les sources (doublons fusionnés), paginés
+- **Aujourd'hui** : les articles récents de toutes les sources, du plus récent au plus ancien (doublons fusionnés), paginés
   sans défilement (boutons ▲ ▼, glissement, touches de volume).
 - **Lecteur épuré** : texte sans menus ni publicités, mis en page en pages (colonnes),
   police avec ou sans empattements, 4 tailles, images en niveaux de gris ou masquées.

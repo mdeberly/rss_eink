@@ -10,17 +10,12 @@
     <string name="previous_page">Previous page</string>
     <string name="next_page">Next page</string>
     <string name="page_x_of_y">Page %1$d / %2$d</string>
-    <string name="filter_all">All</string>
-    <string name="filter_short">≤ 3 min</string>
-    <string name="filter_medium">3–10 min</string>
-    <string name="filter_long">&gt; 10 min</string>
     <string name="updating">Updating…</string>
     <string name="status_count">%1$d articles · %2$s to read</string>
     <string name="status_updated">updated %1$s</string>
     <string name="status_offline">offline</string>
     <string name="empty_no_sources">No sources yet.\nAdd some in Sources.</string>
     <string name="empty_no_articles">No articles. Tap refresh.</string>
-    <string name="empty_filter">No article matches this reading time.</string>
     <string name="empty_saved">No saved articles.\nTap the star in an article, or long-press it in the list.</string>
     <string name="feeds_failed">Could not update: %1$s</string>
     <string name="saved_toast">Saved for offline reading</string>

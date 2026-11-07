@@ -30,7 +30,6 @@ class MainActivity : Activity() {
     private lateinit var pageUp: ImageButton
     private lateinit var pageDown: ImageButton
     private lateinit var btnRefresh: ImageButton
-    private lateinit var chips: List<TextView>
     private lateinit var navToday: TextView
     private lateinit var navSaved: TextView
 
@@ -72,7 +71,6 @@ class MainActivity : Activity() {
         btnRefresh = findViewById(R.id.btn_refresh)
         navToday = findViewById(R.id.nav_today)
         navSaved = findViewById(R.id.nav_saved)
-        chips = listOf(R.id.filter_all, R.id.filter_short, R.id.filter_medium, R.id.filter_long).map { findViewById(it) }
 
         savedMode = savedInstanceState?.getBoolean("saved") ?: false
 
@@ -84,12 +82,6 @@ class MainActivity : Activity() {
         navSaved.setOnClickListener { setMode(true) }
         findViewById<View>(R.id.nav_sources).setOnClickListener {
             startActivity(Intent(this, SourcesActivity::class.java))
-        }
-        chips.forEachIndexed { i, chip ->
-            chip.setOnClickListener {
-                Prefs.filter = i
-                rebuild(resetPage = true)
-            }
         }
         pageUp.setOnClickListener { showPage(pageIndex - 1) }
         pageDown.setOnClickListener { showPage(pageIndex + 1) }
@@ -169,25 +161,15 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun matchesFilter(d: Estimator.Display): Boolean = when (Prefs.filter) {
-        1 -> !d.pending && d.seconds <= 3 * 60 + 29
-        2 -> !d.pending && d.seconds in (3 * 60 + 30)..(10 * 60 + 29)
-        3 -> !d.pending && d.seconds >= 10 * 60 + 30
-        else -> true
-    }
-
     private fun rebuild(resetPage: Boolean) {
         headerTitle.setText(if (savedMode) R.string.tab_saved else R.string.tab_today)
         setSelected(navToday, !savedMode)
         setSelected(navSaved, savedMode)
-        chips.forEachIndexed { i, chip ->
-            chip.isSelected = i == Prefs.filter
-            chip.setTextColor(getColor(if (chip.isSelected) R.color.paper else R.color.ink))
-        }
 
         val anchor = if (resetPage) null else pageStarts.getOrNull(pageIndex)?.let { items.getOrNull(it)?.link }
         val source = if (savedMode) Store.saved().map { it.article } else Store.articles()
-        items = source.filter { matchesFilter(Estimator.display(it)) }
+        // Most recent first
+        items = source.sortedByDescending { it.date }
         paginate()
         val anchorIndex = anchor?.let { link -> items.indexOfFirst { it.link == link } } ?: -1
         pageIndex = if (anchorIndex < 0) 0 else pageStarts.indexOfLast { it <= anchorIndex }.coerceAtLeast(0)
@@ -246,9 +228,8 @@ class MainActivity : Activity() {
             empty.visibility = View.VISIBLE
             empty.setText(
                 when {
-                    savedMode && Prefs.filter == 0 -> R.string.empty_saved
-                    !savedMode && Store.feeds().isEmpty() -> R.string.empty_no_sources
-                    Prefs.filter != 0 -> R.string.empty_filter
+                    savedMode -> R.string.empty_saved
+                    Store.feeds().isEmpty() -> R.string.empty_no_sources
                     else -> R.string.empty_no_articles
                 },
             )
