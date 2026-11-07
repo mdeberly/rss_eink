@@ -10,6 +10,7 @@ import android.text.format.DateFormat
 import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -34,7 +35,8 @@ class ReaderActivity : Activity() {
 
     private lateinit var web: WebView
     private lateinit var pageLabel: TextView
-    private lateinit var readerTime: TextView
+    private lateinit var tools: View
+    private lateinit var toggle: ImageButton
     private lateinit var btnSave: ImageButton
     private lateinit var article: Article
 
@@ -53,10 +55,13 @@ class ReaderActivity : Activity() {
         setContentView(R.layout.activity_reader)
         web = findViewById(R.id.web)
         pageLabel = findViewById(R.id.page_label)
-        readerTime = findViewById(R.id.reader_time)
         btnSave = findViewById(R.id.btn_save)
+        tools = findViewById(R.id.tab_tools)
+        toggle = findViewById(R.id.btn_toggle)
 
-        findViewById<ImageButton>(R.id.btn_back).setOnClickListener { finish() }
+        toggle.setOnClickListener { showTools(tools.visibility != View.VISIBLE) }
+        findViewById<View>(R.id.btn_smaller).setOnClickListener { changeTextSize(-2) }
+        findViewById<View>(R.id.btn_larger).setOnClickListener { changeTextSize(+2) }
         findViewById<ImageButton>(R.id.btn_open).setOnClickListener { openExternal(Uri.parse(article.link)) }
         btnSave.setOnClickListener { toggleSaved() }
         findViewById<ImageButton>(R.id.page_up).setOnClickListener { goTo(page - 1) }
@@ -102,8 +107,7 @@ class ReaderActivity : Activity() {
         // The page never scrolls by itself: every touch is a page turn
         web.setOnTouchListener { _, ev -> gestures.onTouchEvent(ev); true }
 
-        readerTime.setText(R.string.loading)
-        pageLabel.text = ""
+        pageLabel.setText(R.string.loading)
         load()
     }
 
@@ -145,8 +149,8 @@ class ReaderActivity : Activity() {
         body = clean
         val count = ReadingTime.analyze(clean)
         totalSeconds = ReadingTime.seconds(count.words, count.images, Prefs.wordsPerMinute, Prefs.images)
-        val time = getString(R.string.reading_time, ReadingTime.format(totalSeconds))
-        readerTime.text = time + " · " + getString(R.string.words, NumberFormat.getInstance().format(count.words))
+        val time = getString(R.string.reading_time, ReadingTime.format(totalSeconds)) +
+            " · " + getString(R.string.words, NumberFormat.getInstance().format(count.words))
         page = 0
         pageCount = 1
         web.loadDataWithBaseURL(article.link, buildPage(clean, time, fallback), "text/html", "utf-8", null)
@@ -170,7 +174,7 @@ body{margin:0;padding:12px 18px 8px;box-sizing:border-box;height:100vh;
  column-width:100vw;column-gap:36px;column-fill:auto;
  font-family:$font;font-size:${Prefs.textSize}px;line-height:1.5;color:#000;background:#fff;
  overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
-.meta{font-family:Lato,Roboto,sans-serif;font-size:.72em;color:#222;margin:0 0 .4em}
+.meta{font-family:Lato,Roboto,sans-serif;font-size:14px;line-height:18px;color:#222;margin:0 0 6px;padding:2px 46px 0 0;min-height:38px}
 h1{font-size:1.45em;line-height:1.2;margin:.1em 0 .5em;break-after:avoid}
 h2,h3,h4{line-height:1.25;break-after:avoid}
 hr.top{border:0;border-top:2px solid #000;margin:.6em 0 .9em}
@@ -193,19 +197,41 @@ $content
 </body></html>"""
     }
 
-    private fun measurePages() {
+    private fun measurePages(keepProgress: Double? = null) {
         if (isDestroyed) return
         web.evaluateJavascript(
             "(function(){return Math.max(1,Math.ceil((document.documentElement.scrollWidth-2)/window.innerWidth));})()",
         ) { value ->
             pageCount = value?.trim('"')?.toDoubleOrNull()?.toInt()?.coerceAtLeast(1) ?: 1
-            goTo(page.coerceAtMost(pageCount - 1))
+            if (keepProgress != null) page = (keepProgress * pageCount).toInt()
+            page = page.coerceIn(0, pageCount - 1)
+            goTo(page)
         }
+    }
+
+    private fun showTools(show: Boolean) {
+        tools.visibility = if (show) View.VISIBLE else View.GONE
+        toggle.setImageResource(if (show) R.drawable.ic_collapse else R.drawable.ic_back)
+    }
+
+    /** A− / A+: change the size in place and stay at the same place in the article. */
+    private fun changeTextSize(delta: Int) {
+        if (body == null) return
+        val size = (Prefs.textSize + delta).coerceIn(14, 34)
+        if (size == Prefs.textSize) return
+        Prefs.textSize = size
+        val progress = page.toDouble() / pageCount
+        web.evaluateJavascript("document.body.style.fontSize='${size}px'", null)
+        web.postDelayed({
+            page = (progress * pageCount).toInt()
+            measurePages(keepProgress = progress)
+        }, 150)
     }
 
     private fun goTo(target: Int) {
         if (body == null) return
         if (target < 0 || target >= pageCount) return
+        if (target != page) showTools(false)
         page = target
         // A transform rather than scrolling: the browser would clamp the scroll of the last page
         web.evaluateJavascript("document.body.style.transform='translateX(-'+($page*window.innerWidth)+'px)'", null)

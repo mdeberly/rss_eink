@@ -66,4 +66,7 @@
     <string name="age_2">2 derniers jours</string>
     <string name="age_3">3 derniers jours</string>
     <string name="age_7">7 derniers jours</string>
+    <string name="text_smaller">Texte plus petit</string>
+    <string name="text_larger">Texte plus grand</string>
+    <string name="tools">Outils de lecture</string>
 </resources>

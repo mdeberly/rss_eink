@@ -66,4 +66,7 @@
     <string name="age_2">2 days</string>
     <string name="age_3">3 days</string>
     <string name="age_7">7 days</string>
+    <string name="text_smaller">Smaller text</string>
+    <string name="text_larger">Larger text</string>
+    <string name="tools">Reading tools</string>
 </resources>
