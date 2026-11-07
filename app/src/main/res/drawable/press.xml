@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- No ripple: an instant inverted flash is easier on E Ink -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@color/faded" />
+    <item android:drawable="@android:color/transparent" />
+</selector>

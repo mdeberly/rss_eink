@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Page of text with a small clock: news + reading time -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFF" android:strokeColor="#000000" android:strokeWidth="3"
+        android:strokeLineJoin="round"
+        android:pathData="M36,28 H66 A4,4 0 0 1 70,32 V76 A4,4 0 0 1 66,80 H36 A4,4 0 0 1 32,76 V32 A4,4 0 0 1 36,28 Z" />
+    <path android:fillColor="#00000000" android:strokeColor="#000000" android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M39,38 H63 M39,46 H63 M39,54 H52" />
+    <path android:fillColor="#FFFFFF" android:strokeColor="#000000" android:strokeWidth="3"
+        android:pathData="M68,70 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0" />
+    <path android:fillColor="#00000000" android:strokeColor="#000000" android:strokeWidth="3"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M68,63 V70 L73,73" />
+</vector>

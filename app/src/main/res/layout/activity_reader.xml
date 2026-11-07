@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/paper"
+    android:orientation="vertical">
+
+    <!-- Top bar: back, source, open original, save -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            style="@style/IconButton"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/reader_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textColor="@color/ink"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btn_open"
+            style="@style/IconButton"
+            android:contentDescription="@string/open_original"
+            android:src="@drawable/ic_open" />
+
+        <ImageButton
+            android:id="@+id/btn_save"
+            style="@style/IconButton"
+            android:contentDescription="@string/save"
+            android:src="@drawable/ic_star" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/ink" />
+
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/ink" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <ImageButton
+            android:id="@+id/page_up"
+            style="@style/PageButton"
+            android:contentDescription="@string/previous_page"
+            android:src="@drawable/ic_page_up" />
+
+        <TextView
+            android:id="@+id/page_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/ink"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/page_down"
+            style="@style/PageButton"
+            android:contentDescription="@string/next_page"
+            android:src="@drawable/ic_page_down" />
+    </LinearLayout>
+</LinearLayout>

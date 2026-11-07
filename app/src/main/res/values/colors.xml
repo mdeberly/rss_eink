@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="paper">#FFFFFF</color>
+    <color name="ink">#000000</color>
+    <color name="muted">#444444</color>
+    <color name="faded">#777777</color>
+</resources>
