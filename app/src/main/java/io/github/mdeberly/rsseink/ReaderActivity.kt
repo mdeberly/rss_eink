@@ -255,7 +255,7 @@ $content
     }
 
     private fun updateSaveIcon() {
-        btnSave.setImageResource(if (Store.isSaved(article.link)) R.drawable.ic_star_filled else R.drawable.ic_star)
+        btnSave.setImageResource(if (Store.isSaved(article.link)) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark)
     }
 
     private fun openExternal(uri: Uri) {
