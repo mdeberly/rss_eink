@@ -21,6 +21,11 @@ import kotlin.math.abs
 
 class MainActivity : Activity() {
 
+    companion object {
+        /** Articles per page, at most (fewer if they do not fit on the screen) */
+        private const val MAX_PER_PAGE = 4
+    }
+
     private lateinit var headerTitle: TextView
     private lateinit var status: TextView
     private lateinit var pageFrame: View
@@ -206,7 +211,7 @@ class MainActivity : Activity() {
             val h = probe.measuredHeight
             if (i == start) {
                 used = h
-            } else if (used + dividerHeight + h > height) {
+            } else if (used + dividerHeight + h > height || i - start >= MAX_PER_PAGE) {
                 pageStarts += start
                 start = i
                 used = h

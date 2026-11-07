@@ -11,8 +11,8 @@ android {
         applicationId = "io.github.mdeberly.rsseink"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.55"
+        versionCode = 4
+        versionName = "1.60"
     }
 
     signingConfigs {
